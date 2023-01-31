@@ -24,11 +24,9 @@ feedbackForm.addEventListener('input', throttle(handleGetInputText, 500));
 function handleGetInputText({ target }) {
   if (target.tagName === 'INPUT') {
     data.email = target.value;
-    console.log(data);
   }
   if (target.tagName === 'TEXTAREA') {
     data.message = target.value;
-    console.log(data);
   }
   save(StorageKeyForForm, data);
 }
@@ -39,8 +37,13 @@ function load(key) {
   try {
     const serializedState = localStorage.getItem(key);
     const object = JSON.parse(serializedState);
-    input.value = object.email;
-    textarea.value = object.message;
+    if (object !== null) {
+      input.value = object.email;
+      textarea.value = object.message;
+    } else {
+      input.value = '';
+      textarea.value = '';
+    }
   } catch (err) {
     console.error(err);
   }
