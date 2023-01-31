@@ -45,7 +45,7 @@ function load(key) {
       textarea.value = '';
     }
   } catch (err) {
-    console.error(err);
+    console.error('error');
   }
 }
 
