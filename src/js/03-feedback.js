@@ -23,6 +23,7 @@ feedbackForm.addEventListener('input', throttle(handleGetInputText, 500));
 
 function handleGetInputText({ target }) {
   if (target.tagName === 'INPUT') {
+    console.log(target.value);
     data.email = target.value;
   }
   if (target.tagName === 'TEXTAREA') {
