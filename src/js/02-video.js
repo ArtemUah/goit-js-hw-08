@@ -8,13 +8,12 @@ const StorageKey = 'videoplayer-current-time';
 window.addEventListener('load', hanleDefaultSettings);
 
 function hanleDefaultSettings(event) {
-    const setTime = load(StorageKey);
-    player.setCurrentTime(setTime.seconds)
+  const setTime = load(StorageKey);
+  player.setCurrentTime(setTime.seconds);
 }
 
-
 const onPlay = function (event) {
-    save(StorageKey, event);
+  save(StorageKey, event);
 };
 
 player.on('timeupdate', throttle(onPlay, 1000));
@@ -26,7 +25,7 @@ function save(key, value) {
   } catch (err) {
     console.error(err);
   }
-};
+}
 
 function load(key) {
   try {
@@ -36,4 +35,3 @@ function load(key) {
     console.error(err);
   }
 }
-
