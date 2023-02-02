@@ -9,7 +9,7 @@ window.addEventListener('load', hanleDefaultSettings);
 
 function hanleDefaultSettings(event) {
   const setTime = load(StorageKey);
-  player.setCurrentTime(setTime.seconds);
+ if(setTime !== 0) player.setCurrentTime(setTime.seconds);
 }
 
 const onPlay = function (event) {
