@@ -2,8 +2,8 @@ var throttle = require('lodash.throttle');
 
 const StorageKeyForForm = 'feedback-form-state';
 const data = {
-  email: '',
-  message: '',
+  // email: '',
+  // message: '',
 };
 
 const feedbackForm = document.querySelector('.feedback-form');
@@ -57,4 +57,6 @@ function handleFormReset(event) {
   console.log(JSON.parse(serializedState));
   localStorage.removeItem(StorageKeyForForm);
   feedbackForm.reset();
+  data.email = '';
+  data.message = '';
 }
