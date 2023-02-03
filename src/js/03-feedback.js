@@ -1,14 +1,23 @@
 var throttle = require('lodash.throttle');
 
 const StorageKeyForForm = 'feedback-form-state';
-const data = {
-  // email: '',
-  // message: '',
+let data = {
+  email: '',
+  message: '',
 };
+if (localStorage.getItem(StorageKeyForForm)) {
+  const object = JSON.parse(localStorage.getItem(StorageKeyForForm));
+  data.email = object.email;
+  data.message = object.message;
+}
 
 const feedbackForm = document.querySelector('.feedback-form');
 const input = document.querySelector('input');
 const textarea = document.querySelector('textarea');
+
+window.addEventListener('load', load(StorageKeyForForm));
+feedbackForm.addEventListener('input', throttle(handleGetInputText, 500));
+feedbackForm.addEventListener('submit', handleFormReset);
 
 function save(key, value) {
   try {
@@ -19,44 +28,33 @@ function save(key, value) {
   }
 }
 
-feedbackForm.addEventListener('input', throttle(handleGetInputText, 500));
-
 function handleGetInputText({ target }) {
-  if (target.tagName === 'INPUT') {
-    data.email = target.value;
-  }
-  if (target.tagName === 'TEXTAREA') {
-    data.message = target.value;
-  }
+  data[target.name] = target.value;
   save(StorageKeyForForm, data);
 }
-
-window.addEventListener('load', load(StorageKeyForForm));
 
 function load(key) {
   try {
     const serializedState = localStorage.getItem(key);
     const object = JSON.parse(serializedState);
-    if (object !== null) {
+    if (object) {
       input.value = object.email;
       textarea.value = object.message;
-    } else {
-      input.value = '';
-      textarea.value = '';
     }
   } catch (err) {
     console.error('error');
   }
 }
 
-feedbackForm.addEventListener('submit', handleFormReset);
-
 function handleFormReset(event) {
   event.preventDefault();
-  const serializedState = localStorage.getItem(StorageKeyForForm);
-  console.log(JSON.parse(serializedState));
+  let serializedState = JSON.parse(localStorage.getItem(StorageKeyForForm));
+  serializedState ? serializedState : (serializedState = data);
+  console.log(serializedState);
   localStorage.removeItem(StorageKeyForForm);
   feedbackForm.reset();
-  data.email = '';
-  data.message = '';
+  data = {
+    email: '',
+    message: '',
+  };
 }
