@@ -37,10 +37,8 @@ function load(key) {
   try {
     const serializedState = localStorage.getItem(key);
     const object = JSON.parse(serializedState);
-    if (object) {
-      input.value = object.email;
-      textarea.value = object.message;
-    }
+    input.value = object.email;
+    textarea.value = object.message;
   } catch (err) {
     console.error('error');
   }
